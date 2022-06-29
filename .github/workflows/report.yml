@@ -12,10 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: 'Download artifact'
+      - name: 'Download metadata artifact'
         uses: actions/github-script@v6
         with:
-          debug: true
           script: |
             const script = require('./.github/download_workflow_run_artifact.js');
             let fs = require('fs');
@@ -26,8 +25,19 @@ jobs:
 
       - name: Read PR data
         run: echo "PR_DATA=$(cat ./pr.json)" >> $GITHUB_ENV
-      - run: echo ${{ github.event.workflow_run.conclusion }}
-      - run: echo '${{ toJSON(github.event.workflow_run) }}'
+
+      - name: 'Download other artifacts'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const script = require('./.github/download_workflow_run_artifact.js');
+            let fs = require('fs');
+            await script({github, context, core, fs, artifact_name: 'foreman-docs-html-${{ fromJSON(env.PR_DATA).branch_name }}'});
+            await script({github, context, core, fs, artifact_name: 'foreman-docs-web-master'});
+
+      - name: list
+        run: ls -alh
+
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
           number: ${{ fromJSON(env.PR_DATA).pr_number }}
