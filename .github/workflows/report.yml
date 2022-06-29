@@ -35,11 +35,11 @@ jobs:
       - name: 'Unzip artifact'
         run: unzip pr_number.zip
 
-      - name: Read PR number
-        run: echo "PR_NUMBER=$(cat ./pr_number)" >> $GITHUB_ENV
+      - name: Read PR data
+        run: echo "PR_DATA=$(cat ./pr.json)" >> $GITHUB_ENV
       - run: echo ${{ github.event.workflow_run.conclusion }}
       - run: echo '${{ toJSON(github.event.workflow_run) }}'
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
-          number: ${{ env.PR_NUMBER }}
-          message: 'Comment from a workflow'
+          number: ${{ fromJSON(env.PR_DATA).pr_number }}
+          message: 'Comment from a workflow for PR ${{ fromJSON(env.PR_DATA).pr_number }} for ${{ fromJSON(env.PR_DATA).head_sha }}'
