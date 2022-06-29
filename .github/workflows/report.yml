@@ -19,7 +19,8 @@ jobs:
           script: |
             const script = require('./.github/download_workflow_run_artifact.js');
             let fs = require('fs');
-            await script({github, context, core, fs});
+            let artifact_name = 'pr_number'
+            await script({github, context, core, fs, artifact_name});
 
       - name: 'Unzip artifact'
         run: unzip pr_number.zip

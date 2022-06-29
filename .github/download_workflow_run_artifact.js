@@ -1,5 +1,4 @@
-module.exports = async ({github, context, core, fs}) => {
-  let artifact_name = 'pr_number';
+module.exports = async ({github, context, core, fs, artifact_name}) => {
   let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
      owner: context.repo.owner,
      repo: context.repo.repo,
