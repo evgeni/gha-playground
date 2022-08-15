@@ -14,6 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Send email to Discourse on failure
-      run: echo ${{ env.GITHUB_SERVER_URL }}/${{ env.GITHUB_REPOSITORY }}/actions/runs/${{ env.GITHUB_RUN_ID }}
+      run: echo ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
     - name: Send email to Discourse on failure
       run: echo ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
