@@ -1,0 +1,17 @@
+name: Update packages
+
+on:
+  workflow_dispatch:
+
+env:
+  GIT_AUTHOR_NAME: Foreman Packaging Automation
+  GIT_AUTHOR_EMAIL: packaging@theforeman.org
+
+jobs:
+
+  report:
+    name: Report failure to Discourse
+    runs-on: ubuntu-latest
+    steps:
+    - name: Send email to Discourse on failure
+      run: echo ${{ env.GITHUB_SERVER_URL }}/${{ env.GITHUB_REPOSITORY }}/actions/runs/${{ env.GITHUB_RUN_ID }}
