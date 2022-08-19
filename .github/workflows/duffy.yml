@@ -1,0 +1,24 @@
+name: duffy
+on:
+  workflow_dispatch:
+
+jobs:
+
+  duffy:
+    name: duffy
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+      duffy:
+        image: quay.io/evgeni/duffy-mock:latest
+        ports:
+          - 8080:8080
+    steps:
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - run: pip install duffy[client]
+      - run: duffy client --url http://duffy:8080/api/v1 list-pools
