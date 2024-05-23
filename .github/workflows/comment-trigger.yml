@@ -8,5 +8,9 @@ jobs:
     if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:
+      - name: get PR state
+        run: echo PR_STATE=$(gh pr view --repo ${{ github.event.repository.full_name }} ${{ github.event.issue.number }} --json state --jq .state) >> $GITHUB_ENV
+        env:
+          GH_TOKEN: ${{ github.token }}
       - run: |
-          echo A comment by ${{ github.event.sender.login }} who is a ${{ github.event.comment.author_association }} on PR ${{ github.event.issue.number }}
+          echo A comment by ${{ github.event.sender.login }} who is a ${{ github.event.comment.author_association }} on PR ${{ env.PR_STATE }} ${{ github.event.issue.number }}
