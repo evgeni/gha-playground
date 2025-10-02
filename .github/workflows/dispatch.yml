@@ -1,0 +1,17 @@
+name: Update packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: 'Limit bumping to sources contaning this string'
+        required: false
+        type: string
+
+jobs:
+  rpm_list:
+    name: 'Gather RPMs'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set the list
+      run: echo "whoa ${{ inputs.package }} nice"
